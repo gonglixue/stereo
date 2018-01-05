@@ -110,7 +110,7 @@ cv::Mat NCCMatch(cv::Mat& left, cv::Mat& right, int search_range, int win_size)
 
 			}
 
-			disparity.at<uchar>(u, v) = uchar(u - min_u);
+			disparity.at<uchar>(v, u) = uchar(u - min_u);
 			
 
 		}
