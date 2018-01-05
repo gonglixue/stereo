@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>D:\Qt\5.9\msvc2015_64\include\QtWidgets;D:\Qt\5.9\msvc2015_64\include\QtGui;D:\Qt\5.9\msvc2015_64\include\QtCore;D:\Qt\5.9\msvc2015_64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Qt\5.9\msvc2015_64\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
