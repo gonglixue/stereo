@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 		image_sf = atof(argv[5]);
 
 	int board_n = board_w * board_h;
-	cv::Size board_sz = cv::Size(board_w, board_h);
+	cv::Size board_sz = cv::Size(board_w, board_h);  // 多少个棋盘格
 
 	cv::VideoCapture capture(0);
 	if (!capture.isOpened()) {
@@ -45,6 +45,65 @@ int main(int argc, char* argv[])
 
 	while (image_points.size() < (size_t)n_boards)
 	{
+		cv::Mat image0, image;
+		capture >> image0;
+		image_size = image0.size();
+		cv::resize(image0, image, cv::Size(), image_sf, image_sf, cv::INTER_LINEAR);  //变为原来大小的1/2
 
+		// Find the board
+		vector<cv::Point2f> corners;
+		bool found = cv::findChessboardCorners(image, board_sz, corners);  // corners得到的是图像坐标吗？
+		cv::drawChessboardCorners(image, board_sz, corners, found);
+
+		// If we got a good board, add it to our data
+		double timestamp = (double)clock() / CLOCKS_PER_SEC;
+
+		if (found && timestamp - last_captured_timestamp > 1) {
+			last_captured_timestamp = timestamp;
+			image ^= cv::Scalar::all(255);	// ?
+
+			cv::Mat mcorners(corners);		// ?
+			mcorners *= (1. / image_sf);
+			image_points.push_back(corners);
+			object_points.push_back(vector<cv::Point3f>());
+			vector<cv::Point3f>& opts = object_points.back();
+			opts.resize(board_n);
+			for (int j = 0; j < board_n; j++)
+			{
+				opts[j] = cv::Point3f((float)(j / board_w), (float)(j%board_w), 0.0f);  // 世界坐标是：棋盘平面z=0, 棋盘左上角为原点？
+			}
+			cout << "Collected our " << (int)image_points.size() << " of" << 
+				n_boards << " needed chessboard images\n" << endl;
+
+		}
+		cv::imshow("calibration", image);
+
+		if ((cv::waitKey(30) & 255) == 27)
+			return -1;
 	}
+	// END COLLECTION WHILE LOOP
+
+	// 开始标定
+	cv::Mat intrinsic_matrix, distortion_coeffs;
+	double err = cv::calibrateCamera(
+		object_points,
+		image_points,
+		image_size,
+		intrinsic_matrix,
+		distortion_coeffs,
+		cv::noArray(),
+		cv::noArray(),
+		cv::CALIB_ZERO_TANGENT_DIST | cv::CALIB_FIX_PRINCIPAL_POINT
+	);
+
+	// save
+	cout << "*** DONE\n Reprojection error is " << err << "\n Save Intrinsics.xml and Distortions.xml files\n";
+	cv::FileStorage fs("intrinsics.xml", cv::FileStorage::WRITE);
+
+	fs << "image_width" << image_size.width << "image_height" << image_size.height
+		<< "camera_matrix" << intrinsic_matrix << "distortion_coefficients"
+		<< distortion_coeffs;
+	fs.release();
+
+	// Loading
 }
