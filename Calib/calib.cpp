@@ -36,8 +36,8 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	vector<vector<cv::Point2f>> image_points;
-	vector<vector<cv::Point3f>> object_points;
+	vector< vector<cv::Point2f> > image_points;
+	vector< vector<cv::Point3f> > object_points;
 
 	// 循环直至获取包含n_boards个棋盘角点的图像
 	double last_captured_timestamp = 0;
@@ -106,4 +106,49 @@ int main(int argc, char* argv[])
 	fs.release();
 
 	// Loading
+    fs.open("instrinsics.xml", cv::FileStorage::READ);
+    cout << "\nimage_with:" << (int)fs["image_width"];
+    cout << "\nimage_height:" << (int)fs["image_height"];
+
+    cv::Mat intrinsic_matrix_loaded, distortion_coeffs_loaded;
+    fs["camera_matrix"] >> intrinsic_matrix_loaded;
+    fs["distortion_coefficients"] >> distortion_coeffs_loaded;
+    cout << "\nintrinsic matrix:" << intrinsic_matrix_loaded;
+    cout << "\ndistortion coefficients:" << distortion_coeffs_loaded << endl;
+
+    // undistort map
+    cv::Mat map1, map2;
+    cv::initUndistortRectifyMap(
+            intrinsic_matrix_loaded,
+            distortion_coeffs_loaded,
+            cv::Mat(),
+            intrinsic_matrix_loaded,
+            image_size,
+            CV_16SC2,
+            map1,
+            map2
+    );
+
+    // show raw and undistorted image
+    for(;;){
+        cv::Mat image, image0;
+        capture >> image0;
+        if(image0.empty())
+            break;
+        cv::remap(
+                image0,
+                image,
+                map1,
+                map2,
+                cv::INTER_LINEAR,
+                cv::BORDER_CONSTANT,
+                cv::Scalar()
+        );
+        cv::imshow("undistored", image);
+        if((cv::waitKey(30) & 255) == 27)
+            break;
+    }
+
+    return 0;
+
 }
