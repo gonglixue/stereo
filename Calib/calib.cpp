@@ -1,5 +1,9 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
+/*
+comment reference
+http://blog.csdn.net/dcrmg/article/details/52929669
+ */
 
 using namespace std;
 
@@ -7,10 +11,10 @@ void help(char* argv[]) {}
 
 int main(int argc, char* argv[])
 {
-	int n_boards = 0;  // 根据输入获得
+	int n_boards = 0;  // number of images
 	float image_sf = 0.5f;
 	float delay = 1.0f;
-	int board_w = 0;
+	int board_w = 0;  // number of inner corners
 	int board_h = 0;
 
 	if (argc < 4 || argc > 6) {
@@ -27,7 +31,7 @@ int main(int argc, char* argv[])
 		image_sf = atof(argv[5]);
 
 	int board_n = board_w * board_h;
-	cv::Size board_sz = cv::Size(board_w, board_h);  // 多少个棋盘格
+	cv::Size board_sz = cv::Size(board_w, board_h);  // 多少个棋盘内角点
 
 	cv::VideoCapture capture(0);
 	if (!capture.isOpened()) {
@@ -91,8 +95,8 @@ int main(int argc, char* argv[])
 		image_size,
 		intrinsic_matrix,
 		distortion_coeffs,
-		cv::noArray(),
-		cv::noArray(),
+		cv::noArray(),  //rotation vector
+		cv::noArray(),  //translation vector
 		cv::CALIB_ZERO_TANGENT_DIST | cv::CALIB_FIX_PRINCIPAL_POINT
 	);
 
