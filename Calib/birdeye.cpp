@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 
+// board_w board_h intrinsics.xml checker_image
 int main(int argc, char* argv[])
 {
     int         board_w = atoi(argv[1]);
@@ -96,7 +97,7 @@ int main(int argc, char* argv[])
     cv::Mat H = cv::getPerspectiveTransform(objPts, imgPts);
 
     // left user adjust the z height of the view
-    double Z = 25;
+    double Z = 25;      // 相当于相机外参的translation z
     cv::Mat birds_image;
     for(;;){
         H.at<double>(2, 2) = Z;
@@ -142,10 +143,11 @@ int main(int argc, char* argv[])
     cv::Rodrigues(rvec, rmat);
 
     // print
-    std::cout << "rotation matrix:" << rmat << std::endl;
-    std::cout << "translation vector: " << tvec << std::endl;
-    std::cout << "homography matrix: " << H << std::endl;
-    std::cout << "inverted homography matrix: " << H.inv() << std::endl;
+    std::cout << "intrinsics matrinx: \n" << intrinsic << std::endl;
+    std::cout << "rotation matrix:\n" << rmat << std::endl;
+    std::cout << "translation vector: \n" << tvec << std::endl;
+    std::cout << "homography matrix: \n" << H << std::endl;
+    std::cout << "inverted homography matrix: \n" << H.inv() << std::endl;
 
     return 1;
 
