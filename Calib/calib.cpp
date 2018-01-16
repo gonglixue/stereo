@@ -44,8 +44,8 @@ int main(int argc, char* argv[])
 	while (input_count < n_boards)
 	{
 		cv::Mat image0, image;
-        char input_filename[20];
-        sprintf(input_filename, "../calib_example/Image%d.tif", (input_count + 1));
+        char input_filename[100];
+        sprintf(input_filename, "../calib_example/Dataset/Image%d.jpg", (input_count + 1));
 		image0 = cv::imread(input_filename);
 
 		image_size = image0.size();
@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
 	fs.release();
 
 	// Loading
-    fs.open("instrinsics.xml", cv::FileStorage::READ);
+    fs.open("intrinsics.xml", cv::FileStorage::READ);
     cout << "\nimage_with:" << (int)fs["image_width"];
     cout << "\nimage_height:" << (int)fs["image_height"];
 
@@ -131,8 +131,8 @@ int main(int argc, char* argv[])
     // show raw and undistorted image
     for(int i=1; i<=20; i++){
         cv::Mat image, image0;
-        char filename[20];
-        sprintf(filename, "../calib_example/Image%d.tif", i);
+        char filename[100];
+        sprintf(filename, "../calib_example/Dataset/Image%d.jpg", i);
         image0 = cv::imread(filename);
 
         if(image0.empty())
