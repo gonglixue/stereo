@@ -139,8 +139,8 @@ int main(int argc, char* argv[])
             cv::Mat(),
             rvec,
             tvec
-    );// solve outer parameters?
-    cv::Rodrigues(rvec, rmat);
+    );// solve extrinsic parameter
+    cv::Rodrigues(rvec, rmat);  // convert to 3x3 rotation matrix
 
     // print
     std::cout << "intrinsics matrinx: \n" << intrinsic << std::endl;
