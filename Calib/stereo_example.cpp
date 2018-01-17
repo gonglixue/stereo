@@ -140,4 +140,32 @@ static void StereoCalib(const char* imageList, int nx, int ny, bool useUncalibra
     /*
      * =======================calibration quality check======================
      * */
+    std::vector< cv::Point3f> lines[2];
+    double avgErr = 0;
+    int nframes = (int)objectPoints.size();
+
+    for(i=0; i<nframes; i++){
+        std::vector<cv::Point2f>& pt0 = points[0][i];
+        std::vector<cv::Point2f>& pt1 = points[1][i];
+
+        cv::undistortPoints(pt0, pt0, M1, D1, cv::Mat(), M1);
+        cv::undistortPoints(pt1, pt1, M2, D2, cv::Mat(), M2);
+        cv::computeCorrespondEpilines(pt0, 1, F, lines[0]);
+        cv::computeCorrespondEpilines(pt1, 2, F, lines[1]);
+
+        for(j=0; j<N; j++){
+            double err = fabs(
+                    pt0[j].x * lines[1][j].x + pt0[j].y*lines[1][j].y + lines[1][j].z
+            ) + fabs(
+                    pt1[j].x * lines[0][j].x + pt1[j].y*lines[0][j].y + lines[0][j].z
+            );
+            avgErr += err;
+        }
+    }
+
+    std::cout << "avg err = " << avgErr/(nframes * N) << std::endl;
+
+    /*
+     * =============================rectification=======================================
+     */
 }
