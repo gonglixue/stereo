@@ -10,7 +10,7 @@ using namespace std;
 
 void help(char* argv[]) {}
 
-int main(int argc, char* argv[])
+int main_calib(int argc, char* argv[])
 {
 	int n_boards = 0;  // number of images
 	float image_sf = 0.5f;

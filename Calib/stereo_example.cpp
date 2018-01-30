@@ -7,6 +7,8 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <iostream>
+#include <vector>
+#include <iterator>
 #include <string>
 #include <stdlib.h>
 #include <stdio.h>
@@ -74,25 +76,37 @@ static void StereoCalib(const char* imageList, int nx, int ny, bool useUncalibra
             continue;
 
         // find circle grids and centers there in:
-        for(int s=1; s<=maxScale; s++)
-        {
-            cv::Mat timg = img;
-            if(s > 1)
-                resize(img, timg, cv::Size(), s, s, cv::INTER_CUBIC);
-            found[lr] = cv::findCirclesGrid(
-                    timg,
-                    cv::Size(nx, ny),
-                    corners[lr],  // image coordinates
-                    cv::CALIB_CB_ASYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING
-            );
+   //     for(int s=1; s<=maxScale; s++)
+   //     {
+   //         cv::Mat timg = img;
+   //         if(s > 1)
+   //             resize(img, timg, cv::Size(), s, s, cv::INTER_CUBIC);
+   //         //found[lr] = cv::findCirclesGrid(
+   //         //        timg,
+   //         //        cv::Size(nx, ny),
+   //         //        corners[lr],  // image coordinates
+   //         //        cv::CALIB_CB_ASYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING
+   //         //);
+			//found[lr] = cv::findChessboardCorners(
+			//	timg, cv::Size(nx, ny),
+			//	corners[lr],
+			//	cv::CALIB_CB_ADAPTIVE_THRESH | cv::CALIB_CB_FILTER_QUADS
+			//);
 
-            if(found[lr] || s==maxScale){
-                cv::Mat mcorners(corners[lr]);
-                mcorners *= (1./s);
-            }
-            if(found[lr])
-                break;
-        }
+   //         if(found[lr] || s==maxScale){
+   //             cv::Mat mcorners(corners[lr]);
+   //             mcorners *= (1./s);
+   //         }
+   //         if(found[lr])
+   //             break;
+   //     }
+		cv::Mat timg = img;
+		// std::cout << "before find chessboard" << std::endl;
+	    found[lr] = cv::findChessboardCorners(
+   			timg, cv::Size(nx, ny),
+   			corners[lr],
+   			cv::CALIB_CB_ADAPTIVE_THRESH | cv::CALIB_CB_FILTER_QUADS
+		);
 
         if(displayCorners){
             std::cout << buf << std::endl;
@@ -133,11 +147,13 @@ static void StereoCalib(const char* imageList, int nx, int ny, bool useUncalibra
             points[1],
             M1, D1, M2, D2,
             imageSize, R, T, E, F,
+			cv::CALIB_FIX_ASPECT_RATIO | cv::CALIB_ZERO_TANGENT_DIST | cv::CALIB_SAME_FOCAL_LENGTH,
             cv::TermCriteria(
                     cv::TermCriteria::COUNT | cv::TermCriteria::EPS, 100, 1e-5
-            ),
-            cv::CALIB_FIX_ASPECT_RATIO | cv::CALIB_ZERO_TANGENT_DIST | cv::CALIB_SAME_FOCAL_LENGTH
+            )
+            //cv::CALIB_FIX_ASPECT_RATIO | cv::CALIB_ZERO_TANGENT_DIST | cv::CALIB_SAME_FOCAL_LENGTH
     );
+
     std::cout << "Done\n\n";
 
     /*
@@ -190,7 +206,7 @@ static void StereoCalib(const char* imageList, int nx, int ny, bool useUncalibra
              );
          }
          else{
-            // use intrinsic parameters of each camera, bug compute the rectification transformation directly from the fundamental matrix
+            // use intrinsic parameters of each camera, but compute the rectification transformation directly from the fundamental matrix
              std::vector<cv::Point2f> allpoints[2];
              for(i=0; i<nframes; i++){
                  std::copy(
@@ -225,8 +241,14 @@ static void StereoCalib(const char* imageList, int nx, int ny, bool useUncalibra
                      M1, D1, R1, P1,
                      imageSize,
                      CV_16SC2,
-                     map21, map22
+                     map11, map12
              );
+			 cv::initUndistortRectifyMap(
+				 M2, D2, R2, P2,
+				 imageSize,
+				 CV_16SC2,
+				 map21, map22
+			 );
 
          }
          // rectify the images and find disparity maps
@@ -237,19 +259,11 @@ static void StereoCalib(const char* imageList, int nx, int ny, bool useUncalibra
              pair.create(imageSize.height*2, imageSize.width, CV_8UC3);
 
          // setup for finding stereo correspondences
-//         cv::Ptr<cv::StereoSGBM> stereo = cv::StereoSGBM::create(
-//                 -64, 128, 11, 100, 1000,
-//                 32, 0, 15, 1000, 16,
-//                 cv::StereoSGBM::MODE_HH
-//         );
-         cv::StereoSGBM stereo(
+         cv::Ptr<cv::StereoSGBM> stereo = cv::StereoSGBM::create(
                  -64, 128, 11, 100, 1000,
                  32, 0, 15, 1000, 16,
-                 false
+                 cv::StereoSGBM::MODE_HH
          );
-
-
-
 
          for(i=0; i<nframes; i++)
          {
@@ -264,8 +278,8 @@ static void StereoCalib(const char* imageList, int nx, int ny, bool useUncalibra
              cv::remap(img2, img2r, map21, map22, cv::INTER_LINEAR);
 
              if(!isVerticalStereo || useUncalibrated){
-                 //stereo.compute(img1r, img2r, disp);
-                 stereo.operator()(img1r, img2r, disp);
+                 stereo->compute(img1r, img2r, disp);
+                 //stereo.operator()(img1r, img2r, disp);
                  cv::normalize(disp, vdisp, 0, 256, cv::NORM_MINMAX, CV_8U);
                  cv::imshow("disparity", vdisp);
              }
@@ -309,7 +323,7 @@ static void StereoCalib(const char* imageList, int nx, int ny, bool useUncalibra
 int main(int argc, char** argv)
 {
     int board_w = 9, board_h = 6;
-    const char* board_list = "ch12_list.txt";
+    const char* board_list = "list.txt";
     if(argc == 4){
         board_list = argv[1];
         board_w = atoi(argv[2]);

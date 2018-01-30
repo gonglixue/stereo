@@ -1,4 +1,7 @@
 #include "localmatch.h"
+#include <cv.h>
+#include <cxcore.h>
+#include <cvaux.h>
 
 cv::Mat SADMatch(cv::Mat& left, cv::Mat& right, int search_range, int win_wsize, int win_hsize)
 {
@@ -111,7 +114,7 @@ cv::Mat NCCMatch(cv::Mat& left, cv::Mat& right, int search_range, int win_size)
 			}
 
 			disparity.at<uchar>(v, u) = uchar(u - min_u);
-			
+			printf("set v,u(%d, %d)\n", v, u);
 
 		}
 	}
@@ -134,4 +137,10 @@ float NCCEnergy(cv::Mat& patch1, cv::Mat& patch2, float left_avg)
 
 	float result = numerator / sqrt(temp3 * temp4);
 	return result;
+}
+
+
+void test()
+{
+	
 }
