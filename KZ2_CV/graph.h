@@ -23,7 +23,7 @@ public:
 	node_id add_node();
 	void add_edge(node_id i, node_id j, captype capij, captype capji);
 	void add_edge_infty(node_id i, node_id j);
-	void add_tweights(node_id i, tcaptype capS, tcapType capT);
+	void add_tweights(node_id i, tcaptype capS, tcaptype capT);
 
 	flowtype maxflow();
 	termtype what_segment(node_id i, termtype defaultSegm = SOURCE) const;
@@ -79,8 +79,8 @@ private:
 };
 
 // Necessary for templates: provide full implementation
-// #include "graph.cpp"
-// #include "maxflow.cpp"
+#include "graph.cpp"
+#include "maxflow.cpp"
 
 
 #endif
