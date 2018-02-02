@@ -21,6 +21,12 @@
     <ClInclude Include="energy.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="nan.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graph.cpp">

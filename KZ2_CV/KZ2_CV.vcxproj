@@ -149,6 +149,8 @@
   <ItemGroup>
     <ClInclude Include="energy.h" />
     <ClInclude Include="graph.h" />
+    <ClInclude Include="image.h" />
+    <ClInclude Include="nan.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graph.cpp" />
