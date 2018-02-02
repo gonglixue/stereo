@@ -29,7 +29,10 @@ private:
 };
 
 inline Energy::Energy(int hintNbNodes, int hintNbArcs)
-	: Graph<short, short, int>(hintNbNodes, hintNbArcs), Econst(0)
+: Graph<short, short, int>(hintNbNodes, hintNbArcs), Econst(0)
+{}
+
+inline Energy::~Energy()
 {}
 
 /// Add a new binary variable

@@ -26,7 +26,7 @@ Match::Match(cv::Mat left, cv::Mat right, bool color)
 
 	if (d_left.cols == 0 || vars0.cols == 0 || varsA.cols == 0)
 	{
-		std::cerr << "Not enough memroty!" << std::endl;
+		std::cerr << "Not enough memory!" << std::endl;
 		exit(1);
 	}
 	
@@ -55,7 +55,7 @@ void Match::SaveXLeft(const char* filename)
 		for (int h = 0; h < imSizeL.y; h++)
 		{
 			int d = d_left.at<int>(h, w);
-			out.at<uchar>(h, w) = ((d == OCCLUDED) ? 0 : static_cast<uchar>(d));
+			out.at<uchar>(h, w) = ((d == OCCLUDED) ? 0 : static_cast<uchar>(std::abs(d)));
 		}
 	}
 

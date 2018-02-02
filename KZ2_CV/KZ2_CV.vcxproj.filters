@@ -27,12 +27,30 @@
     <ClInclude Include="image.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="match.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graph.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="maxflow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="data.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="match.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="kz2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="statistics.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

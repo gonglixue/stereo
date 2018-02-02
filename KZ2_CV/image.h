@@ -15,6 +15,7 @@ typedef enum
 inline cv::Vec3b imgRef(cv::Mat im, int y, int x)
 {
 	cv::Vec3b value = im.at<cv::Vec3b>(y, x);
+	return value;
 }
 
 inline int imGetXSize(cv::Mat im)

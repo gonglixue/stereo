@@ -71,7 +71,7 @@ void Graph<captype, tcaptype, flowtype>::add_tweights(node_id i, tcaptype capS, 
 /// After the maxflow is computed, this function returns to which segment the
 /// node 'i' belongs (SOURCE or SINK).
 template<typename captype, typename tcaptype, typename flowtype>
-type Graph<captype, tcaptype, flowtype>::termtype
+typename Graph<captype, tcaptype, flowtype>::termtype
 Graph<captype, tcaptype, flowtype>::what_segment(node_id i, termtype def) const
 {
 	return (nodes[i].parent ? nodes[i].term : def);

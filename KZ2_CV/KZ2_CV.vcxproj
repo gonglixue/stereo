@@ -136,7 +136,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -150,11 +150,17 @@
     <ClInclude Include="energy.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="image.h" />
+    <ClInclude Include="match.h" />
     <ClInclude Include="nan.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="data.cpp" />
     <ClCompile Include="graph.cpp" />
+    <ClCompile Include="kz2.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="match.cpp" />
     <ClCompile Include="maxflow.cpp" />
+    <ClCompile Include="statistics.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
