@@ -20,13 +20,14 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
-#define QStringLiteral(a) a
-
 QT_BEGIN_NAMESPACE
+#define QStringLiteral(a) a
 
 class Ui_StereoQtClass
 {
@@ -41,6 +42,16 @@ public:
     QPushButton *computeBtn;
     QPushButton *saveBtn;
     QLabel *methodLabel;
+    QTabWidget *tabWidget;
+    QWidget *sadTab;
+    QWidget *nccTab;
+    QWidget *gcTab;
+    QSpinBox *dispMinSpinBox;
+    QSpinBox *dispMaxSpinBox;
+    QSpinBox *iterSpinBox;
+    QLabel *label;
+    QLabel *label_2;
+    QLabel *label_3;
     QWidget *imgWidget;
     QPushButton *leftPosBtn;
     QPushButton *rightPosBtn;
@@ -61,28 +72,64 @@ public:
         groupBox->setGeometry(QRect(20, 20, 221, 411));
         loadLeftBtn = new QPushButton(groupBox);
         loadLeftBtn->setObjectName(QStringLiteral("loadLeftBtn"));
-        loadLeftBtn->setGeometry(QRect(20, 50, 151, 28));
+        loadLeftBtn->setGeometry(QRect(20, 20, 151, 28));
         loadRightBtn = new QPushButton(groupBox);
         loadRightBtn->setObjectName(QStringLiteral("loadRightBtn"));
-        loadRightBtn->setGeometry(QRect(20, 90, 151, 28));
+        loadRightBtn->setGeometry(QRect(20, 60, 151, 28));
         sadRadio = new QRadioButton(groupBox);
         sadRadio->setObjectName(QStringLiteral("sadRadio"));
-        sadRadio->setGeometry(QRect(40, 173, 51, 19));
+        sadRadio->setGeometry(QRect(40, 122, 51, 19));
         nccRadio = new QRadioButton(groupBox);
         nccRadio->setObjectName(QStringLiteral("nccRadio"));
-        nccRadio->setGeometry(QRect(40, 199, 51, 19));
+        nccRadio->setGeometry(QRect(40, 148, 51, 19));
         gcRadio = new QRadioButton(groupBox);
         gcRadio->setObjectName(QStringLiteral("gcRadio"));
-        gcRadio->setGeometry(QRect(40, 225, 99, 19));
+        gcRadio->setGeometry(QRect(40, 174, 99, 19));
         computeBtn = new QPushButton(groupBox);
         computeBtn->setObjectName(QStringLiteral("computeBtn"));
-        computeBtn->setGeometry(QRect(20, 280, 151, 28));
+        computeBtn->setGeometry(QRect(20, 340, 151, 28));
         saveBtn = new QPushButton(groupBox);
         saveBtn->setObjectName(QStringLiteral("saveBtn"));
-        saveBtn->setGeometry(QRect(20, 320, 151, 28));
+        saveBtn->setGeometry(QRect(20, 380, 151, 28));
         methodLabel = new QLabel(groupBox);
         methodLabel->setObjectName(QStringLiteral("methodLabel"));
-        methodLabel->setGeometry(QRect(21, 151, 171, 16));
+        methodLabel->setGeometry(QRect(21, 100, 171, 16));
+        tabWidget = new QTabWidget(groupBox);
+        tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        tabWidget->setGeometry(QRect(0, 200, 221, 131));
+        sadTab = new QWidget();
+        sadTab->setObjectName(QStringLiteral("sadTab"));
+        tabWidget->addTab(sadTab, QString());
+        nccTab = new QWidget();
+        nccTab->setObjectName(QStringLiteral("nccTab"));
+        tabWidget->addTab(nccTab, QString());
+        gcTab = new QWidget();
+        gcTab->setObjectName(QStringLiteral("gcTab"));
+        dispMinSpinBox = new QSpinBox(gcTab);
+        dispMinSpinBox->setObjectName(QStringLiteral("dispMinSpinBox"));
+        dispMinSpinBox->setGeometry(QRect(90, 10, 46, 22));
+        dispMinSpinBox->setMinimum(-80);
+        dispMinSpinBox->setMaximum(0);
+        dispMinSpinBox->setValue(-60);
+        dispMaxSpinBox = new QSpinBox(gcTab);
+        dispMaxSpinBox->setObjectName(QStringLiteral("dispMaxSpinBox"));
+        dispMaxSpinBox->setGeometry(QRect(90, 40, 46, 22));
+        iterSpinBox = new QSpinBox(gcTab);
+        iterSpinBox->setObjectName(QStringLiteral("iterSpinBox"));
+        iterSpinBox->setGeometry(QRect(90, 70, 46, 22));
+        iterSpinBox->setMinimum(3);
+        iterSpinBox->setMaximum(10);
+        iterSpinBox->setValue(4);
+        label = new QLabel(gcTab);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(10, 10, 72, 15));
+        label_2 = new QLabel(gcTab);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setGeometry(QRect(10, 40, 72, 15));
+        label_3 = new QLabel(gcTab);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(0, 70, 81, 16));
+        tabWidget->addTab(gcTab, QString());
         imgWidget = new QWidget(centralWidget);
         imgWidget->setObjectName(QStringLiteral("imgWidget"));
         imgWidget->setGeometry(QRect(270, 20, 691, 411));
@@ -112,6 +159,9 @@ public:
 
         retranslateUi(StereoQtClass);
 
+        tabWidget->setCurrentIndex(2);
+
+
         QMetaObject::connectSlotsByName(StereoQtClass);
     } // setupUi
 
@@ -127,6 +177,15 @@ public:
         computeBtn->setText(QApplication::translate("StereoQtClass", "Compute Disparity", Q_NULLPTR));
         saveBtn->setText(QApplication::translate("StereoQtClass", "Save Disparity", Q_NULLPTR));
         methodLabel->setText(QApplication::translate("StereoQtClass", "Choose An Algorithm:", Q_NULLPTR));
+#ifndef QT_NO_TOOLTIP
+        sadTab->setToolTip(QApplication::translate("StereoQtClass", "<html><head/><body><p>SAD \345\217\202\346\225\260</p></body></html>", Q_NULLPTR));
+#endif // QT_NO_TOOLTIP
+        tabWidget->setTabText(tabWidget->indexOf(sadTab), QApplication::translate("StereoQtClass", "1", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(nccTab), QApplication::translate("StereoQtClass", "2", Q_NULLPTR));
+        label->setText(QApplication::translate("StereoQtClass", "dispMin", Q_NULLPTR));
+        label_2->setText(QApplication::translate("StereoQtClass", "dispMax", Q_NULLPTR));
+        label_3->setText(QApplication::translate("StereoQtClass", "Iter Times", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(gcTab), QApplication::translate("StereoQtClass", "3", Q_NULLPTR));
         leftPosBtn->setText(QString());
         rightPosBtn->setText(QString());
         dispPosBtn->setText(QString());
