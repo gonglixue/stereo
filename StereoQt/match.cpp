@@ -32,7 +32,7 @@ Match::Match(cv::Mat left, cv::Mat right, bool color)
 
 }
 
-void Match::InitMatch(cv::Mat left, cv::Mat right)
+void Match::InitMatch(cv::Mat& left, cv::Mat& right)
 {
 	originalHeightL = imGetYSize(left);
 	int height = std::min(imGetYSize(left), imGetYSize(right));
@@ -71,6 +71,25 @@ Match::~Match()
 	varsA.release();
 }
 
+void Match::SetMehod(int m)
+{
+	assert(m == 0 || m == 1 || m == 2);
+	switch (m)
+	{
+	case 0:
+		method = SAD;
+		break;
+	case 1:
+		method = NCC;
+		break;
+	case 2:
+		method = GRAPH;
+		break;
+	default:
+		break;
+	}
+}
+
 void Match::SaveXLeft(const char* filename)
 {
 	Coord outSize(imSizeL.x, originalHeightL);
@@ -88,6 +107,22 @@ void Match::SaveXLeft(const char* filename)
 	cv::imwrite(filename, out);
 	out.release();
 
+}
+
+cv::Mat Match::GetResultDisparity()
+{
+	Coord outSize(imSizeL.x, originalHeightL);
+	cv::Mat out = cv::Mat(outSize.y, outSize.x, CV_8UC1);
+
+	for (int w = 0; w < imSizeL.x; w++) {
+		for (int h = 0; h < imSizeL.y; h++)
+		{
+			int d = d_left.at<int>(h, w);
+			out.at<uchar>(h, w) = ((d == OCCLUDED) ? 0 : static_cast<uchar>(std::abs(d)));
+		}
+	}
+
+	return out;
 }
 
 void Match::SaveScaledXLeft(const char*filename, bool flag)

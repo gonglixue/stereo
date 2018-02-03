@@ -219,15 +219,17 @@ static void generate_permutaion(int *buf, int n)
 }
 
 /// main algorithm: a series of alpha-expansions
-void Match::run()
+void Match::run(QProgressBar* progressBar)
 {
 	std::cout << std::fixed << std::setprecision(1);
 
 	const int dispSize = dispMax - dispMin + 1;
 	int* permutation = new int[dispSize];
+	float total_travel = dispSize * params.maxIter * 1.0;
 
 	E = ComputeEnerty();
 	std::cout << "E=" << E << std::endl;
+	progressBar->setValue(5);
 
 	bool* done = new bool[dispSize]; // can expansion of label decrease energy?
 	std::fill_n(done, dispSize, false);
@@ -255,17 +257,23 @@ void Match::run()
 			std::cout << std::flush;
 			done[label] = true;
 			--nDone;
+
+			float current_travel = 1.0 * iter * dispSize + index;
+			int progress_value = 100 * (current_travel / total_travel);
+			progress_value = (progress_value > 5) ? progress_value : 5;
+			progressBar->setValue(progress_value);
 		}
 		std::cout << "E=" << E << std::endl;
 	}
 
 	std::cout << (float)step / dispSize << " iteration" << std::endl;
+	progressBar->setValue(100);
 
 	delete[] permutation;
 	delete[] done;
 }
 
-void Match::KZ2()
+void Match::KZ2(QProgressBar* progressBar)
 {
 	if (params.K < 0 || params.edgeTresh < 0 ||
 		params.lambda1 < 0 || params.lambda2 < 0 || params.denominator < 1) {
@@ -279,7 +287,7 @@ void Match::KZ2()
 		s << params.denominator;
 		strDenom = "/" + s.str();
 	}
-
+	progressBar->setValue(1);
 	std::cout << "KZ2:	K=" << params.K << strDenom << std::endl
 		<< "	edgeThreshol=" << params.edgeTresh
 		<< ", lambda1=" << params.lambda1 << strDenom
@@ -287,5 +295,5 @@ void Match::KZ2()
 		<< ", dataCosnt = L" <<
 		((params.dataCost == Parameters::L1) ? '1' : '2') << std::endl;
 
-	run();
+	run(progressBar);
 }

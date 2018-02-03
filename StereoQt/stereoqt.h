@@ -18,6 +18,7 @@ private:
 	Ui::StereoQtClass ui;
 	QButtonGroup *methodsGroup;
 
+
 	Match match;
 
 	cv::Mat left;
@@ -25,6 +26,10 @@ private:
 
 	void LoadLeftImage();
 	void LoadRightImage();
+	void SetMehod();
+	void Compute();
+
+	void SetMatchParams();
 };
 
 #endif // STEREOQT_H

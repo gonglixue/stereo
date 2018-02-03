@@ -18,6 +18,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpinBox>
@@ -56,6 +57,7 @@ public:
     QPushButton *leftPosBtn;
     QPushButton *rightPosBtn;
     QPushButton *dispPosBtn;
+    QProgressBar *progressBar;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -135,16 +137,20 @@ public:
         imgWidget->setGeometry(QRect(270, 20, 691, 411));
         leftPosBtn = new QPushButton(imgWidget);
         leftPosBtn->setObjectName(QStringLiteral("leftPosBtn"));
-        leftPosBtn->setEnabled(false);
+        leftPosBtn->setEnabled(true);
         leftPosBtn->setGeometry(QRect(20, 20, 200, 150));
         rightPosBtn = new QPushButton(imgWidget);
         rightPosBtn->setObjectName(QStringLiteral("rightPosBtn"));
-        rightPosBtn->setEnabled(false);
+        rightPosBtn->setEnabled(true);
         rightPosBtn->setGeometry(QRect(20, 210, 200, 150));
         dispPosBtn = new QPushButton(imgWidget);
         dispPosBtn->setObjectName(QStringLiteral("dispPosBtn"));
-        dispPosBtn->setEnabled(false);
+        dispPosBtn->setEnabled(true);
         dispPosBtn->setGeometry(QRect(230, 20, 441, 341));
+        progressBar = new QProgressBar(imgWidget);
+        progressBar->setObjectName(QStringLiteral("progressBar"));
+        progressBar->setGeometry(QRect(20, 380, 118, 23));
+        progressBar->setValue(0);
         StereoQtClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(StereoQtClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));

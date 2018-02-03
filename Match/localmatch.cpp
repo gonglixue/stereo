@@ -16,8 +16,8 @@ cv::Mat SADMatch(cv::Mat& left, cv::Mat& right, int search_range, int win_wsize,
 // rectification后只要在x方向找
 cv::Mat SADMatch(cv::Mat& left, cv::Mat& right, int search_range, int win_size)
 {
-	// TODO assert size
-	// ...
+	assert(left.cols > 0 && right.cols > 0);
+	assert(left.size() == right.size());
 
 	cv::Mat disparity = cv::Mat::zeros(left.size(), CV_8UC1);
 	int width = left.cols;

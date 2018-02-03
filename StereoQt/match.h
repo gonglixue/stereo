@@ -2,13 +2,14 @@
 #define MATCH_H
 
 #include "image.h"
+#include <QtWidgets/qprogressbar.h>
 
 class Energy;
 
 class Match {
 public:
 	Match(cv::Mat left, cv::Mat right, bool color = true);
-	Match() {}
+	Match() { method = GRAPH; }
 	~Match();
 
 	void SetDispRange(int dMin, int dMax);
@@ -29,14 +30,16 @@ public:
 	};
 	enum { SAD, NCC, GRAPH } method;
 
-	void InitMatch(cv::Mat left, cv::Mat right);
+	void InitMatch(cv::Mat& left, cv::Mat& right);
+	void SetMehod(int m);
 
 	float GetK();
 	void SetParameters(Parameters *params);
-	void KZ2();
+	void KZ2(QProgressBar* test);
 
 	void SaveXLeft(const char* filename);
 	void SaveScaledXLeft(const char* filename, bool flag);
+	cv::Mat GetResultDisparity();
 
 private:
 	Coord imSizeL, imSizeR;
@@ -58,7 +61,7 @@ private:
 	cv::Mat vars0;		///< varaibales befor alpha expansion. int32
 	cv::Mat varsA;		///< variables after alpha expansion
 
-	void run();
+	void run(QProgressBar* progressBar);
 	void InitSubPixel();
 
 	// data penalty functions
