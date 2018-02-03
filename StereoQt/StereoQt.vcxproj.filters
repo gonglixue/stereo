@@ -19,52 +19,14 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files">
-      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
-      <Extensions>moc;h;cpp</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
+      <UniqueIdentifier>{91c15b2f-a9e3-4a25-b9d2-a3a817c9055c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{bd9b2212-a761-4967-a7fb-4853a551194e}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
+      <UniqueIdentifier>{c3f6c5a5-6501-4c04-8bc1-595cbecd4c7a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{08ee8d7f-9a0b-421d-b542-f2df293d7b23}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
+      <UniqueIdentifier>{e11fbaad-85b2-48f7-a5b1-2dda9921db6c}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="GeneratedFiles\qrc_stereoqt.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_stereoqt.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_stereoqt.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cu">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="data.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="graph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="kz2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="match.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="maxflow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="statistics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="stereoqt.ui">
@@ -78,8 +40,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_stereoqt.h">
-      <Filter>Generated Files</Filter>
+    <ClInclude Include="cuda_localmatch.cuh">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="energy.h">
       <Filter>Header Files</Filter>
@@ -96,11 +58,46 @@
     <ClInclude Include="nan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_stereoqt.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="test.cu" />
+    <CudaCompile Include="cuda_localmatch.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
     <CudaCompile Include="stereoqt.cu">
       <Filter>Source Files</Filter>
     </CudaCompile>
+    <CudaCompile Include="match.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kz2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="maxflow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="statistics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_stereoqt.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_stereoqt.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

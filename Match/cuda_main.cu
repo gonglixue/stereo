@@ -3,6 +3,7 @@
 #include "device_launch_parameters.h"
 #include "cuda_localmatch.cuh"
 #include <stdio.h>
+#include <iostream>
 #include <opencv2/opencv.hpp>
 
 cudaError_t addWithCuda(int *c, const int *a, const int *b, unsigned int size);
@@ -14,6 +15,10 @@ int main()
 	cv::Mat right = cv::imread("right.png", 0);
 	assert(left.cols > 0 && right.cols > 0);
 	assert(left.size() == right.size());
+
+	int method = 0;
+	//std::cout << "enter method(0 or 1):";
+	//std::cin >> method;
 
 	int height = left.rows;
 	int width = left.cols;
@@ -33,7 +38,10 @@ int main()
 	block_size = dim3(32, 32, 1);
 	grid_size = dim3((width + block_size.x - 1) / block_size.x, (height + block_size.y - 1) / block_size.y, 1);
 
-	SADMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 5, width, height);
+	//if (!method)
+		//SADMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 5, width, height);
+	//else
+		NCCMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 5, width, height);
 
 	// copy result back
 	cv::Mat result_disparity(height, width, CV_8UC1);

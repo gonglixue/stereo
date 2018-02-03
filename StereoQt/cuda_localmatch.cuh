@@ -1,9 +1,9 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-#include "cuda_runtime_api.h"
-#include "cuda.h"
-#include <stdio.h>
-#include <math_functions.hpp>
+
+#define __CUDA_INTERNAL_COMPILATION__
+#include "math_functions.h"
+#undef __CUDA_INTERNAL_COMPILATION__
 
 typedef unsigned char uchar;
 

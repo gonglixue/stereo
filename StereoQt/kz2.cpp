@@ -275,6 +275,10 @@ void Match::run(QProgressBar* progressBar)
 
 void Match::KZ2(QProgressBar* progressBar)
 {
+	Coord outSize(imSizeL.x, originalHeightL);
+	this->out.release();
+	this->out = cv::Mat(outSize.y, outSize.x, CV_8UC1);
+
 	if (params.K < 0 || params.edgeTresh < 0 ||
 		params.lambda1 < 0 || params.lambda2 < 0 || params.denominator < 1) {
 		std::cerr << "Error in KZ2: wrong parameter!" << std::endl;

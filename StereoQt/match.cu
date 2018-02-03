@@ -124,7 +124,7 @@ cv::Mat Match::GetResultDisparity()
 		}
 	}
 	else {
-		
+
 	}
 
 	return out;
@@ -170,7 +170,7 @@ cv::Mat Match::PerformMatchAllMethods(QProgressBar* progressBar)
 	}
 
 	progressBar->setValue(100);
-	
+
 	return GetResultDisparity();
 }
 
@@ -211,7 +211,7 @@ void Match::RunLocalCUDA(bool useSAD)
 	cudaFree(d_out);
 	left.release();
 	right.release();
-	
+
 }
 
 void Match::RunSAD()

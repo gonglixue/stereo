@@ -2,6 +2,7 @@
 #define MATCH_H
 
 #include "image.h"
+#include "cuda_localmatch.cuh"
 #include <QtWidgets/qprogressbar.h>
 
 class Energy;
@@ -32,14 +33,15 @@ public:
 
 	void InitMatch(cv::Mat& left, cv::Mat& right);
 	void SetMehod(int m);
+	cv::Mat PerformMatchAllMethods(QProgressBar* progressBar);
 
 	float GetK();
 	void SetParameters(Parameters *params);
-	void KZ2(QProgressBar* test);
+	
 
 	void SaveXLeft(const char* filename);
 	void SaveScaledXLeft(const char* filename, bool flag);
-	cv::Mat GetResultDisparity();
+	
 
 private:
 	Coord imSizeL, imSizeR;
@@ -49,6 +51,7 @@ private:
 	cv::Mat imRightMin, imRightMax;
 	cv::Mat imColorLeftMin, imColorLeftMax;
 	cv::Mat imColorRightMin, imColorRightMax;
+	cv::Mat out;
 	int dispMin, dispMax;
 
 	static const int OCCLUDED;
@@ -80,6 +83,12 @@ private:
 	void build_smoothness(Energy& e, Coord p, Coord np, int a);
 	void build_uniqueness(Energy& e, Coord p, int a);
 	void update_disparity(const Energy& e, int a);
+
+	cv::Mat GetResultDisparity();
+	void KZ2(QProgressBar* test);
+	void RunSAD();
+	void RunNCC();
+	void RunLocalCUDA(bool useSAD = true);
 };
 
 #endif

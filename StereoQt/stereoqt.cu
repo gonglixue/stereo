@@ -138,11 +138,11 @@ void StereoQt::Compute()
 	match.InitMatch(left, right);
 	SetMatchParams();
 
-	match.KZ2(ui.progressBar);
-	match.SaveXLeft("D:/test.png");
+	// match.KZ2(ui.progressBar);
+	// match.SaveXLeft("D:/test.png");
 
+	cv::Mat result = match.PerformMatchAllMethods(ui.progressBar);
 	qDebug() << "compute done!\n";
-	cv::Mat result = match.GetResultDisparity();
 
 	QImage temp_qimage((const uchar*)result.data, result.cols, result.rows, result.step, QImage::Format_Grayscale8);
 	this->ui.dispPosBtn->setIcon(QPixmap::fromImage(temp_qimage));

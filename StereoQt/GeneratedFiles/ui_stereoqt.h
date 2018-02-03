@@ -45,7 +45,15 @@ public:
     QLabel *methodLabel;
     QTabWidget *tabWidget;
     QWidget *sadTab;
+    QLabel *label_4;
+    QSpinBox *dispMinSpinBox_2;
+    QLabel *label_5;
+    QSpinBox *winSpinBox;
     QWidget *nccTab;
+    QSpinBox *dispMinSpinBox_3;
+    QLabel *label_6;
+    QLabel *label_7;
+    QSpinBox *winSpinBox_2;
     QWidget *gcTab;
     QSpinBox *dispMinSpinBox;
     QSpinBox *dispMaxSpinBox;
@@ -101,9 +109,43 @@ public:
         tabWidget->setGeometry(QRect(0, 200, 221, 131));
         sadTab = new QWidget();
         sadTab->setObjectName(QStringLiteral("sadTab"));
+        label_4 = new QLabel(sadTab);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(10, 10, 72, 15));
+        dispMinSpinBox_2 = new QSpinBox(sadTab);
+        dispMinSpinBox_2->setObjectName(QStringLiteral("dispMinSpinBox_2"));
+        dispMinSpinBox_2->setGeometry(QRect(90, 10, 46, 22));
+        dispMinSpinBox_2->setMinimum(-64);
+        dispMinSpinBox_2->setMaximum(0);
+        dispMinSpinBox_2->setValue(-64);
+        label_5 = new QLabel(sadTab);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(10, 50, 72, 15));
+        winSpinBox = new QSpinBox(sadTab);
+        winSpinBox->setObjectName(QStringLiteral("winSpinBox"));
+        winSpinBox->setGeometry(QRect(90, 50, 46, 22));
+        winSpinBox->setMaximum(9);
+        winSpinBox->setValue(5);
         tabWidget->addTab(sadTab, QString());
         nccTab = new QWidget();
         nccTab->setObjectName(QStringLiteral("nccTab"));
+        dispMinSpinBox_3 = new QSpinBox(nccTab);
+        dispMinSpinBox_3->setObjectName(QStringLiteral("dispMinSpinBox_3"));
+        dispMinSpinBox_3->setGeometry(QRect(90, 10, 46, 22));
+        dispMinSpinBox_3->setMinimum(-64);
+        dispMinSpinBox_3->setMaximum(0);
+        dispMinSpinBox_3->setValue(-64);
+        label_6 = new QLabel(nccTab);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setGeometry(QRect(10, 10, 72, 15));
+        label_7 = new QLabel(nccTab);
+        label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setGeometry(QRect(10, 50, 72, 15));
+        winSpinBox_2 = new QSpinBox(nccTab);
+        winSpinBox_2->setObjectName(QStringLiteral("winSpinBox_2"));
+        winSpinBox_2->setGeometry(QRect(90, 50, 46, 22));
+        winSpinBox_2->setMaximum(9);
+        winSpinBox_2->setValue(5);
         tabWidget->addTab(nccTab, QString());
         gcTab = new QWidget();
         gcTab->setObjectName(QStringLiteral("gcTab"));
@@ -184,14 +226,24 @@ public:
         saveBtn->setText(QApplication::translate("StereoQtClass", "Save Disparity", Q_NULLPTR));
         methodLabel->setText(QApplication::translate("StereoQtClass", "Choose An Algorithm:", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
+        tabWidget->setToolTip(QString());
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_ACCESSIBILITY
+        tabWidget->setAccessibleName(QString());
+#endif // QT_NO_ACCESSIBILITY
+#ifndef QT_NO_TOOLTIP
         sadTab->setToolTip(QApplication::translate("StereoQtClass", "<html><head/><body><p>SAD \345\217\202\346\225\260</p></body></html>", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
-        tabWidget->setTabText(tabWidget->indexOf(sadTab), QApplication::translate("StereoQtClass", "1", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(nccTab), QApplication::translate("StereoQtClass", "2", Q_NULLPTR));
+        label_4->setText(QApplication::translate("StereoQtClass", "dispMin", Q_NULLPTR));
+        label_5->setText(QApplication::translate("StereoQtClass", "window", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(sadTab), QApplication::translate("StereoQtClass", "SAD", Q_NULLPTR));
+        label_6->setText(QApplication::translate("StereoQtClass", "dispMin", Q_NULLPTR));
+        label_7->setText(QApplication::translate("StereoQtClass", "window", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(nccTab), QApplication::translate("StereoQtClass", "NCC", Q_NULLPTR));
         label->setText(QApplication::translate("StereoQtClass", "dispMin", Q_NULLPTR));
         label_2->setText(QApplication::translate("StereoQtClass", "dispMax", Q_NULLPTR));
         label_3->setText(QApplication::translate("StereoQtClass", "Iter Times", Q_NULLPTR));
-        tabWidget->setTabText(tabWidget->indexOf(gcTab), QApplication::translate("StereoQtClass", "3", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(gcTab), QApplication::translate("StereoQtClass", "GraphCut", Q_NULLPTR));
         leftPosBtn->setText(QString());
         rightPosBtn->setText(QString());
         dispPosBtn->setText(QString());

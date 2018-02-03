@@ -21,7 +21,7 @@ __device__ int SADLoss(uchar* patch1, uchar* patch2, int patch_size)
 
 }
 
-__global__ void SADMatch(uchar* left, uchar* right, uchar* out, 
+__global__ void SADMatch(uchar* left, uchar* right, uchar* out,
 	int search_range, int win_size, int width, int height)
 {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -55,7 +55,7 @@ __global__ void SADMatch(uchar* left, uchar* right, uchar* out,
 			int y_in_left = idy + v;
 			int x_in_patch = win_size + u;
 			int y_in_patch = win_size + v;
-			left_patch[y_in_patch*patch_width + x_in_patch] 
+			left_patch[y_in_patch*patch_width + x_in_patch]
 				= left[y_in_left*width + x_in_left];
 		}
 	}
@@ -67,15 +67,15 @@ __global__ void SADMatch(uchar* left, uchar* right, uchar* out,
 	{
 		if (r_u < win_size || r_u>width - win_size)
 			continue;
-		
-		
+
+
 		// copy the window from right to right_patch
 		for (int u = -win_size; u <= win_size; u++) {
 			for (int v = -win_size; v <= win_size; v++) {
 				int x_in_right = r_u + u;
 				int y_in_right = r_v + v;
 				int x_in_patch = win_size + u, y_in_patch = win_size + v;
-				right_patch[y_in_patch*patch_width + x_in_patch] 
+				right_patch[y_in_patch*patch_width + x_in_patch]
 					= right[y_in_right*width + x_in_right];
 			}
 		}
@@ -94,7 +94,7 @@ __global__ void SADMatch(uchar* left, uchar* right, uchar* out,
 
 }
 
-__global__ void NCCMatch(uchar* left, uchar* right, uchar* out, 
+__global__ void NCCMatch(uchar* left, uchar* right, uchar* out,
 	int search_range, int win_size, int width, int height)
 {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -115,7 +115,7 @@ __global__ void NCCMatch(uchar* left, uchar* right, uchar* out,
 			int x_in_left = idx + u, y_in_left = idy + v;
 			int x_in_patch = win_size + u, y_in_patch = win_size + v;
 
-			left_patch[y_in_patch*patch_width + x_in_patch] 
+			left_patch[y_in_patch*patch_width + x_in_patch]
 				= left[y_in_left*width + x_in_left];
 
 			left_avg += left[y_in_left*width + x_in_left];
@@ -124,7 +124,7 @@ __global__ void NCCMatch(uchar* left, uchar* right, uchar* out,
 	left_avg = left_avg / (patch_width * patch_width);
 
 	float max_energy = -10000;
-	int min_u = idx, r_v=idy;
+	int min_u = idx, r_v = idy;
 	// compare
 	for (int r_u = idx - search_range; r_u <= idx; r_u++) {
 		if (r_u < win_size || r_u>width - win_size)
@@ -154,7 +154,7 @@ __global__ void NCCMatch(uchar* left, uchar* right, uchar* out,
 	//printf("idx - min_u: %d\n", (idx - min_u));
 	//out[idy*width + idx] = left_avg;
 }
-__device__ float NCCEnergy(const uchar* patch1, uchar* patch2, float left_avg, 
+__device__ float NCCEnergy(const uchar* patch1, uchar* patch2, float left_avg,
 	int patch_size)
 {
 	// cannot change patch1
@@ -167,7 +167,7 @@ __device__ float NCCEnergy(const uchar* patch1, uchar* patch2, float left_avg,
 		}
 	}
 	right_avg = right_avg / (patch_size * patch_size);
-	
+
 	float numerator = 0, temp3 = 0, temp4 = 0;
 	// numerator = Sigma(temp1 .* temp2)
 	// temp3 = Sigma(temp1 .* temp1)
@@ -191,5 +191,5 @@ __device__ float NCCEnergy(const uchar* patch1, uchar* patch2, float left_avg,
 	/*
 	return result;
 	*/
-	
+
 }

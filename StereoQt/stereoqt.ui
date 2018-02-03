@@ -139,6 +139,12 @@
        <height>131</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string/>
+     </property>
+     <property name="accessibleName">
+      <string/>
+     </property>
      <property name="currentIndex">
       <number>2</number>
      </property>
@@ -147,17 +153,139 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;SAD 参数&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <attribute name="title">
-       <string>Tab 1</string>
+       <string>SAD</string>
       </attribute>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>72</width>
+         <height>15</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>dispMin</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="dispMinSpinBox_2">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>46</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>-64</number>
+       </property>
+       <property name="maximum">
+        <number>0</number>
+       </property>
+       <property name="value">
+        <number>-64</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>72</width>
+         <height>15</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>window</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="winSpinBox">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>50</y>
+         <width>46</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>9</number>
+       </property>
+       <property name="value">
+        <number>5</number>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="nccTab">
       <attribute name="title">
-       <string>页</string>
+       <string>NCC</string>
       </attribute>
+      <widget class="QSpinBox" name="dispMinSpinBox_3">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>46</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>-64</number>
+       </property>
+       <property name="maximum">
+        <number>0</number>
+       </property>
+       <property name="value">
+        <number>-64</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>72</width>
+         <height>15</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>dispMin</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>72</width>
+         <height>15</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>window</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="winSpinBox_2">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>50</y>
+         <width>46</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>9</number>
+       </property>
+       <property name="value">
+        <number>5</number>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="gcTab">
       <attribute name="title">
-       <string>Tab 2</string>
+       <string>GraphCut</string>
       </attribute>
       <widget class="QSpinBox" name="dispMinSpinBox">
        <property name="geometry">
