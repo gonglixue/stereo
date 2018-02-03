@@ -3,13 +3,52 @@
 #include "device_launch_parameters.h"
 #include "cuda_localmatch.cuh"
 #include <stdio.h>
-
+#include <opencv2/opencv.hpp>
 
 cudaError_t addWithCuda(int *c, const int *a, const int *b, unsigned int size);
 
+int main()
+{
+	// host memory
+	cv::Mat left = cv::imread("left.png", 0);
+	cv::Mat right = cv::imread("right.png", 0);
+	assert(left.cols > 0 && right.cols > 0);
+	assert(left.size() == right.size());
+
+	int height = left.rows;
+	int width = left.cols;
+
+	// device memory
+	uchar *d_left, *d_right, *d_out;
+	cudaMalloc((void**)&d_left, width*height);
+	cudaMalloc((void**)&d_right, width*height);
+	cudaMalloc((void**)&d_out, width*height);
+
+	cudaMemcpy(d_left, left.data, width*height, cudaMemcpyHostToDevice);
+	cudaMemcpy(d_right, right.data, width*height, cudaMemcpyHostToDevice);
+	cudaMemset(d_out, 0, width*height * sizeof(uchar));
+
+	// launch kernel
+	dim3 block_size, grid_size;
+	block_size = dim3(32, 32, 1);
+	grid_size = dim3((width + block_size.x - 1) / block_size.x, (height + block_size.y - 1) / block_size.y, 1);
+
+	SADMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 5, width, height);
+
+	// copy result back
+	cv::Mat result_disparity(height, width, CV_8UC1);
+	cudaMemcpy(result_disparity.data, d_out, width*height * sizeof(uchar), cudaMemcpyDeviceToHost);
+
+	cudaFree(d_left);
+	cudaFree(d_right);
+	cudaFree(d_out);
+	cv::imshow("result", result_disparity);
+
+	cv::waitKey(0);
+}
 
 
-int main(int argc, char *argv[])
+int main_t(int argc, char *argv[])
 {
 	const int arraySize = 5;
 	const int a[arraySize] = { 1, 2, 3, 4, 5 };
