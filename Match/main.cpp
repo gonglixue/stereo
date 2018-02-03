@@ -1,3 +1,4 @@
+#if 0
 #include "localmatch.h"
 
 int main()
@@ -15,3 +16,4 @@ int main()
 	cv::waitKey(0);
 	return 0;
 }
+#endif

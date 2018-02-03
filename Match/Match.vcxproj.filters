@@ -18,6 +18,9 @@
     <ClInclude Include="localmatch.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="cuda_localmatch.cuh">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="localmatch.cpp">
@@ -26,5 +29,13 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="cuda_localmatch.cu">
+      <Filter>源文件</Filter>
+    </CudaCompile>
+    <CudaCompile Include="cuda_main.cu">
+      <Filter>源文件</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>
