@@ -117,3 +117,8 @@ void Match::SetParameters(Parameters *_params)
 	params = *_params;
 	InitSubPixel();
 }
+
+void Match::SetLocalParameters(LocalParameters* _params)
+{
+	local_params = *_params;
+}

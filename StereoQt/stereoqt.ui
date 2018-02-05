@@ -146,7 +146,7 @@
       <string/>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="sadTab">
       <property name="toolTip">
@@ -168,7 +168,7 @@
         <string>dispMin</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="dispMinSpinBox_2">
+      <widget class="QSpinBox" name="dispMinSpinBox_SAD">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -200,7 +200,7 @@
         <string>window</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="winSpinBox">
+      <widget class="QSpinBox" name="winSpinBox_SAD">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -221,7 +221,7 @@
       <attribute name="title">
        <string>NCC</string>
       </attribute>
-      <widget class="QSpinBox" name="dispMinSpinBox_3">
+      <widget class="QSpinBox" name="dispMinSpinBox_NCC">
        <property name="geometry">
         <rect>
          <x>90</x>
@@ -266,7 +266,7 @@
         <string>window</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="winSpinBox_2">
+      <widget class="QSpinBox" name="winSpinBox_NCC">
        <property name="geometry">
         <rect>
          <x>90</x>

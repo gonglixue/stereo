@@ -29,6 +29,10 @@ public:
 		int maxIter;
 		bool bRandomizeEveryIteration;		///< random alpha order at each iter
 	};
+	struct LocalParameters {
+		int win_size;
+		int max_disparity;
+	};
 	enum { SAD, NCC, GRAPH } method;
 
 	void InitMatch(cv::Mat& left, cv::Mat& right);
@@ -37,12 +41,14 @@ public:
 
 	float GetK();
 	void SetParameters(Parameters *params);
+	void SetLocalParameters(LocalParameters* params);
 	
 
 	void SaveXLeft(const char* filename);
 	void SaveScaledXLeft(const char* filename, bool flag);
-	
+	const cv::Mat& AccessFinalOut() { return out;  }
 
+	float time_ms;
 private:
 	Coord imSizeL, imSizeR;
 	int originalHeightL;	///< left image height befor possible crop
@@ -58,6 +64,7 @@ private:
 
 	cv::Mat d_left;	// CV_32SC1 int32
 	Parameters params;
+	LocalParameters local_params;
 	
 
 	int E;

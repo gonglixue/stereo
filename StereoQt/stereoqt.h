@@ -24,10 +24,15 @@ private:
 	cv::Mat left;
 	cv::Mat right;
 
+	QString method_str;
+
+
 	void LoadLeftImage();
 	void LoadRightImage();
 	void SetMehod();
 	void Compute();
+	void SaveResult();
+	void ChangeLocalParams(int);
 
 	void SetMatchParams();
 };

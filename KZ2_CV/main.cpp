@@ -60,7 +60,7 @@ int main()
 		4, false
 	};
 
-	float K = -1, lambda = -1, lambda1 = -1, lambda2 = -1;
+	float K = -1, lambda = 20, lambda1 = -1, lambda2 = -1;
 
 	cv::Mat im1 = cv::imread("left.png");
 	cv::Mat im2 = cv::imread("right.png");
@@ -72,8 +72,14 @@ int main()
 	srand((unsigned int)seed);
 	fix_parameters(m, params, K, lambda, lambda1, lambda2);
 
+	clock_t start, finish;
+	start = clock();
 	m.KZ2();
-	m.SaveXLeft("disparity.png");
+	finish = clock();
+
+	float time_ms = (finish - start) * 1000.0 / CLOCKS_PER_SEC;
+	printf("timing: %f ms\n", time_ms);
+	m.SaveXLeft("disparity_1.png");
 
 	im1.release();
 	im2.release();

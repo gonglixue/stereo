@@ -11,8 +11,8 @@ cudaError_t addWithCuda(int *c, const int *a, const int *b, unsigned int size);
 int main()
 {
 	// host memory
-	cv::Mat left = cv::imread("left.png", 0);
-	cv::Mat right = cv::imread("right.png", 0);
+	cv::Mat left = cv::imread("stereoData/Cloth1/view1.png", 0);
+	cv::Mat right = cv::imread("stereoData/Cloth1/view5.png", 0);
 	assert(left.cols > 0 && right.cols > 0);
 	assert(left.size() == right.size());
 
@@ -38,11 +38,20 @@ int main()
 	block_size = dim3(32, 32, 1);
 	grid_size = dim3((width + block_size.x - 1) / block_size.x, (height + block_size.y - 1) / block_size.y, 1);
 
+	cudaEvent_t start_cuda, finish_cuda;
+	cudaEventCreate(&start_cuda, 0);
+	cudaEventCreate(&finish_cuda, 0);
+	cudaEventRecord(start_cuda, 0);
 	//if (!method)
-		//SADMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 5, width, height);
+		SADMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 2, width, height);
 	//else
-		NCCMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 5, width, height);
+		//NCCMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 5, width, height);
 
+	float time_ms;
+	cudaEventRecord(finish_cuda, 0);
+	cudaEventSynchronize(finish_cuda);
+	cudaEventElapsedTime(&time_ms, start_cuda, finish_cuda);
+	printf("time: %f\n", time_ms);
 	// copy result back
 	cv::Mat result_disparity(height, width, CV_8UC1);
 	cudaMemcpy(result_disparity.data, d_out, width*height * sizeof(uchar), cudaMemcpyDeviceToHost);
@@ -50,9 +59,18 @@ int main()
 	cudaFree(d_left);
 	cudaFree(d_right);
 	cudaFree(d_out);
-	cv::imshow("result", result_disparity);
+	cudaEventDestroy(start_cuda);
+	cudaEventDestroy(finish_cuda);
+	//cv::imshow("result", result_disparity);
+	cv::imwrite("stereoData/Cloth1/sad.png", result_disparity);
+	cv::normalize(result_disparity, result_disparity, 0, 255, cv::NORM_MINMAX);
+	cv::imwrite("stereoData/Cloth1/sad_norm.png", result_disparity);
 
-	cv::waitKey(0);
+	cv::Mat gt = cv::imread("stereoData/Cloth1/disp1.png", 0);
+	cv::normalize(gt, gt, 0, 255, cv::NORM_MINMAX);
+	cv::imwrite("stereoData/Cloth1/gt_norm.png", gt);
+
+	//cv::waitKey(0);
 }
 
 

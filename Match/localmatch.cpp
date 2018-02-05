@@ -1,3 +1,4 @@
+
 #include "localmatch.h"
 #include <cv.h>
 #include <cxcore.h>
@@ -144,3 +145,4 @@ void test()
 {
 	
 }
+

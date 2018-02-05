@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KZ2_CV", "KZ2_CV\KZ2_CV.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testqt", "testqt\testqt.vcxproj", "{F99CD9E3-34C3-46A4-9F89-B3BED2C24E67}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Norm", "Norm\Norm.vcxproj", "{792ED15C-D0FC-432F-A8C0-0F4244679419}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{F99CD9E3-34C3-46A4-9F89-B3BED2C24E67}.Release|x64.Build.0 = Release|x64
 		{F99CD9E3-34C3-46A4-9F89-B3BED2C24E67}.Release|x86.ActiveCfg = Release|Win32
 		{F99CD9E3-34C3-46A4-9F89-B3BED2C24E67}.Release|x86.Build.0 = Release|Win32
+		{792ED15C-D0FC-432F-A8C0-0F4244679419}.Debug|x64.ActiveCfg = Debug|x64
+		{792ED15C-D0FC-432F-A8C0-0F4244679419}.Debug|x64.Build.0 = Debug|x64
+		{792ED15C-D0FC-432F-A8C0-0F4244679419}.Debug|x86.ActiveCfg = Debug|Win32
+		{792ED15C-D0FC-432F-A8C0-0F4244679419}.Debug|x86.Build.0 = Debug|Win32
+		{792ED15C-D0FC-432F-A8C0-0F4244679419}.Release|x64.ActiveCfg = Release|x64
+		{792ED15C-D0FC-432F-A8C0-0F4244679419}.Release|x64.Build.0 = Release|x64
+		{792ED15C-D0FC-432F-A8C0-0F4244679419}.Release|x86.ActiveCfg = Release|Win32
+		{792ED15C-D0FC-432F-A8C0-0F4244679419}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

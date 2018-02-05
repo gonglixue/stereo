@@ -58,6 +58,7 @@ StereoQt::StereoQt(QWidget *parent)
 	methodsGroup->addButton(ui.sadRadio, 0);
 	methodsGroup->addButton(ui.nccRadio, 1);
 	methodsGroup->addButton(ui.gcRadio, 2);
+	method_str = "Graph Cuts";
 	ui.gcRadio->setChecked(true);
 
 	connect(ui.loadLeftBtn, &QPushButton::clicked, this, &StereoQt::LoadLeftImage);
@@ -70,6 +71,16 @@ StereoQt::StereoQt(QWidget *parent)
 
 	// compute
 	connect(ui.computeBtn, &QRadioButton::clicked, this, &StereoQt::Compute);
+
+	// save
+	connect(ui.saveBtn, &QRadioButton::clicked, this, &StereoQt::SaveResult);
+
+	// change parameters
+	connect(ui.dispMinSpinBox_NCC, SIGNAL(valueChanged(int)), this, SLOT(ChangeLocalParams(int)));
+	connect(ui.dispMinSpinBox_SAD, SIGNAL(valueChanged(int)), this, SLOT(ChangeLocalParams(int)));
+	connect(ui.winSpinBox_NCC, SIGNAL(valueChanged(int)), this, SLOT(ChangeLocalParams(int)));
+	connect(ui.winSpinBox_SAD, SIGNAL(valueChanged(int)), this, SLOT(ChangeLocalParams(int)));
+
 
 }
 
@@ -122,6 +133,14 @@ void StereoQt::SetMehod()
 {
 	this->match.SetMehod(methodsGroup->checkedId());
 	qDebug() << "set method " << (methodsGroup->checkedId()) << "\n";
+
+	//QString method_str;
+	if (this->methodsGroup->checkedId() == 0)
+		method_str = "SAD";
+	else if (this->methodsGroup->checkedId() == 1)
+		method_str = "NCC";
+	else
+		method_str = "Graph Cuts";
 }
 
 void StereoQt::Compute()
@@ -148,8 +167,16 @@ void StereoQt::Compute()
 	this->ui.dispPosBtn->setIcon(QPixmap::fromImage(temp_qimage));
 	this->ui.dispPosBtn->setIconSize(this->ui.dispPosBtn->size());
 
+	char info_str[200];
+	sprintf(info_str, "Computation Compete.\n" 
+		"Image Size:[%d, %d]\n"
+		"Method:%s\n"
+		"Time Cost:%f ms\n", left.cols, left.rows, method_str.toStdString(), match.time_ms);
+
 	QMessageBox::information(
-		this, tr("Stereo"), tr("Computation Complete."), 
+		this, tr("Stereo"), 
+		tr(info_str
+		), 
 		QMessageBox::Ok,
 		QMessageBox::Ok);
 
@@ -171,4 +198,55 @@ void StereoQt::SetMatchParams()
 	srand((unsigned int)seed);
 	fix_parameters(match, params, K, lambda, lambda1, lambda2);
 	
+	Match::LocalParameters local_params = {
+		64, 5
+	};
+	match.SetLocalParameters(&local_params);
+}
+
+void StereoQt::SaveResult()
+{
+	cv::Mat result = match.AccessFinalOut();
+	if (result.cols == 0) {
+		QMessageBox::warning(this,
+			tr("Stereo"),
+			tr("Nothing to save.\n"
+				"Please load images and compute disparity first."),
+			QMessageBox::Ok);
+		return;
+	}
+
+	QString file_fn = QFileDialog::getSaveFileName(
+		this,
+		tr("Save Disparity Image"),
+		QString(),
+		tr("Image Files(*.png)")
+	);
+	if (file_fn.isEmpty())
+		return;
+
+	cv::imwrite(file_fn.toStdString(), result);
+}
+
+void StereoQt::ChangeLocalParams(int a)
+{
+	Match::LocalParameters local_params;
+	if (this->methodsGroup->checkedId() == 1) {
+		local_params.max_disparity = -1 * ui.dispMinSpinBox_NCC->value();
+		local_params.win_size = ui.winSpinBox_NCC->value();
+		match.SetLocalParameters(&local_params);
+	}
+	else if (this->methodsGroup->checkedId() == 0) {
+		local_params.max_disparity = -1 * ui.dispMinSpinBox_SAD->value();
+		local_params.win_size = ui.winSpinBox_SAD->value();
+		match.SetLocalParameters(&local_params);
+	}
+
+	char info[10];
+	sprintf(info, "win:%d", local_params.win_size);
+	QMessageBox::information(
+		this, tr("Stereo"),
+		tr(info),
+		QMessageBox::Ok,
+		QMessageBox::Ok);
 }

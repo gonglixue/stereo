@@ -275,6 +275,9 @@ void Match::run(QProgressBar* progressBar)
 
 void Match::KZ2(QProgressBar* progressBar)
 {
+	clock_t start, finish;
+	
+
 	Coord outSize(imSizeL.x, originalHeightL);
 	this->out.release();
 	this->out = cv::Mat(outSize.y, outSize.x, CV_8UC1);
@@ -299,5 +302,9 @@ void Match::KZ2(QProgressBar* progressBar)
 		<< ", dataCosnt = L" <<
 		((params.dataCost == Parameters::L1) ? '1' : '2') << std::endl;
 
+	start = clock();
 	run(progressBar);
+	finish = clock();
+
+	time_ms = (finish - start)*1000.0 / (CLOCKS_PER_SEC);
 }

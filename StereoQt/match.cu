@@ -197,10 +197,21 @@ void Match::RunLocalCUDA(bool useSAD)
 	block_size = dim3(32, 32, 1);
 	grid_size = dim3((width + block_size.x - 1) / block_size.x, (height + block_size.y - 1) / block_size.y, 1);
 
+	cudaEvent_t start_cuda, finish_cuda;
+	cudaEventCreate(&start_cuda, 0);
+	cudaEventCreate(&finish_cuda, 0);
+	cudaEventRecord(start_cuda, 0);
+
+	int win_size = 6;
 	if (useSAD)
-		SADMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 5, width, height);
+		SADMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, win_size, width, height);
 	else
-		NCCMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, 5, width, height);
+		NCCMatch << <grid_size, block_size >> > (d_left, d_right, d_out, 64, win_size, width, height);
+	
+	cudaEventRecord(finish_cuda, 0);
+	cudaEventSynchronize(finish_cuda);
+	cudaEventElapsedTime(&time_ms, start_cuda, finish_cuda);
+	
 	// copy result back
 	this->out.release();
 	this->out = cv::Mat(height, width, CV_8UC1);
@@ -209,6 +220,8 @@ void Match::RunLocalCUDA(bool useSAD)
 	cudaFree(d_left);
 	cudaFree(d_right);
 	cudaFree(d_out);
+	cudaEventDestroy(start_cuda);
+	cudaEventDestroy(finish_cuda);
 	left.release();
 	right.release();
 
